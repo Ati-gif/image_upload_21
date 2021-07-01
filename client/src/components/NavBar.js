@@ -36,7 +36,7 @@ const NavBar = () => {
       <div>
         <Link to="/">Home</Link>
         <span style={{ marginRight: "10px" }}></span>
-        {user && <Link to="/things">Things</Link>}
+        {user && <Link to="/thingsDemo">Things</Link>}
       </div>
       <div>{getRightNav()}</div>
     </div>
@@ -54,4 +54,3 @@ const styles = {
 };
 
 export default NavBar;
-
