@@ -1,31 +1,37 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Things = () => {
-    // about the useState hook
-    const [things, setThings] = useState([])
+  const [things, setThings] = useState([]);
 
-    // about the use hook
-    useEffect(()=>{
-        getThings()
-    },[])
+  // [] as second arg for componentdidmount
+  // ()=>{} this is a unnamed function in this example it is a callback
+  // function(){}
+  useEffect(() => {
+    console.log("in useEFect");
+    //component did mount logic
 
-    // maybe about async await
-    const getThings = async() => {
-      // about try catch
-      try {
-         let res = await axios.get('/api/things')
-         console.log(res)
-      } catch(err){
-          console.log(err)
-         alert('err')
-      }
-    }
-    return (
-        <div>
-            <h1>Things</h1>
-        </div>
-    )
-} 
+    //axios.get() return a promise which resolves or rejects
+    // resolve =>triggers .then( (thingReturnedinResolve)=>{} )
+    // reject =>triggers .catch( ()=>{})
+    axios
+      .get("/api/things")
+      .then((response) => {
+        setThings(response.data);
+      })
+      .catch((error) => {
+        alert("error in retrieving things");
+      });
+  }, []);
+  return (
+    <>
+      <div>
+        {things.map((t) => (
+          <p key={t.id}>{t.name}</p>
+        ))}
+      </div>
+    </>
+  );
+};
 
-export default Things
+export default Things;

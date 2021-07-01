@@ -1,20 +1,31 @@
-import { Switch, Route } from "react-router-dom";
-import Navbar from './components/NavBar';
-import About from "./pages/About";
-import Examples from "./pages/Examples";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
+import NavBar from "./components/NavBar";
 import Things from "./pages/Things";
+import { Container } from "semantic-ui-react";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import FetchUser from "./components/FetchUser";
+import ProtecedRoute from "./components/ProtectedRoute";
+
+// anything in fetchuser will be hidden while that checkuser function is running
 
 function App() {
   return (
     <>
-    <Navbar />
-    <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/things" component={Things} />
-        <Route exact path="/examples" component={Examples} />
-      </Switch>
+      <NavBar />
+
+      <Container>
+        <FetchUser>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <ProtecedRoute exact path="/things" component={Things} />
+          </Switch>
+        </FetchUser>
+      </Container>
     </>
   );
 }

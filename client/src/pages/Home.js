@@ -1,11 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React from "react";
+import { useAxiosOnMount } from "../customHooks/useAxiosOnMount";
+import FilePondAddOnClick from "../components/FilePondAddOnClick";
+
 
 const Home = () => {
-    return (
-        <div>
-            <h1>Home</h1>
-        </div>
-    )
-} 
+    const {data, loading, error} = useAxiosOnMount('/api/images')
+    
 
-export default Home
+    return (
+        <>
+           <FilePondAddOnClick />
+           <p>data.length: {data.length}</p>
+
+        </>
+    )
+}
+
+export default Home;

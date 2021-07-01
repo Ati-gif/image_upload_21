@@ -1,15 +1,57 @@
-import React from "react";
-import { Link  } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
+import styled from "styled-components";
 
-const Navbar =()=> {
-    return (
+const NavBar = () => {
+  const history = useHistory();
+  const { user, handleLogout } = useContext(AuthContext);
+
+  const getRightNav = () => {
+    if (user) {
+      return (
+        <>
+          {/* part 2 what I am badly here Instant Bug */}
+          <div
+            onClick={() => handleLogout(history)}
+            style={{ color: "steelblue" }}
+          >
+            logout!
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Link to="/register">register</Link>
+          <span style={{ marginRight: "10px" }}></span>
+          <Link to="/login">login</Link>
+        </>
+      );
+    }
+  };
+
+  return (
+    <div style={styles.navbar}>
       <div>
-          <Link to="/">Home</Link>
-          <Link to='/about'>About</Link>
-          <Link to='/things'>Things</Link>
-          <Link to='/examples'>Examples</Link>
+        <Link to="/">Home</Link>
+        <span style={{ marginRight: "10px" }}></span>
+        {user && <Link to="/things">Things</Link>}
       </div>
-    );
-}
+      <div>{getRightNav()}</div>
+    </div>
+  );
+};
 
-export default Navbar;
+const styles = {
+  navbar: {
+    width: "100%",
+    background: "black",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+};
+
+export default NavBar;
+

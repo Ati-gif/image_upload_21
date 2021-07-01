@@ -1,35 +1,30 @@
-import {useState, useEffect} from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+export const useAxiosOnMount = (url, options = { method: "get" }) => {
+  const [response, setResponse] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-const useAxiosOnMount = (url) => {
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+  const refetch = async (url, options) => {
+    setLoading(true);
+    try {
+      const res = await axios({
+        url,
+        ...options,
+      });
+      // const res = await axios.get(url);
+      console.log(res)
+      setResponse(res);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+      console.log(error)
+    }
+  };
 
-    useEffect(()=>{
-        setTimeout(()=>{
-            getData()
-        },2000)
-    },[])
-
-    const getData = async() => {
-        // about try catch
-        try {
-           let res = await axios.get(url)
-           setData(res.data)
-           setError(null)
-           setLoading(false)
-        } catch(err){
-            setError(err)
-            setLoading(false)
-        }
-      }
-    
-    return {data, loading, error}
-}
-export default useAxiosOnMount
-
-
-
-
-
+  useEffect(() => {
+    refetch(url);
+  }, []);
+  return { data: response.data ? response.data : [], response, loading, error };
+};
